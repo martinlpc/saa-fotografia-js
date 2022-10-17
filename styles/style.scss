@@ -1,4 +1,4 @@
-$colorsombra: 0 10px 10px -10px rgba(33,35,38, 0.1);
+$colorsombra: 0 10px 10px -10px rgba(33, 35, 38, 0.1);
 $colortextos: #0c0a0d;
 $colorheadfoot: #BFB4B0;
 $colorfondo: #f2f2f2;
@@ -6,7 +6,7 @@ $sombracustomer: 5px 5px 7px 0px rgba(0, 0, 0, 0.16);
 $resmobilemax: 736px;
 $resdeskmin: 1158px;
 
-@mixin themecolor($bg, $txtcol){
+@mixin themecolor($bg, $txtcol) {
     background-color: $bg;
     color: $txtcol;
 }
@@ -19,20 +19,21 @@ $resdeskmin: 1158px;
 
 /* RESETEO CSS y FUENTE GRAL */
 
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     font-family: 'Lato', sans-serif;
-    background-color: $colorfondo;   
+    background-color: $colorfondo;
 }
 
-.menu--nav{
+
+.menu--nav {
     @include themecolor($colorheadfoot, $colortextos);
-        
+
     height: 110px;
     position: fixed;
     width: 100%;
@@ -43,68 +44,73 @@ body{
     margin: 0;
     border-radius: 0 0 10px 10px;
     z-index: 9;
-    box-shadow: -1px 10px 16px -5px rgba(0,0,0,0.75);
+    box-shadow: -1px 10px 16px -5px rgba(0, 0, 0, 0.75);
     font-size: 0;
     align-items: center;
     display: flex;
     justify-content: space-between;
 }
 
-.menu--nav--logo-header{
+.menu--nav--logo-header {
     vertical-align: middle;
     width: 25%;
     padding-left: 5%;
-    @media(max-width: $resmobilemax){
+
+    @media(max-width: $resmobilemax) {
         padding-left: 3%;
 
     }
 
-    img{
+    img {
         margin-top: 5px;
         margin-bottom: 5px;
         width: 100px;
         height: 100px;
 
-        &:active{
+        &:active {
             transform: scale(0.9);
         }
 
-        @media(max-width: $resmobilemax){
+        @media(max-width: $resmobilemax) {
             width: 70px;
             height: 70px;
         }
     }
 }
 
-.menu--nav--sections{
+.menu--nav--sections {
     vertical-align: middle;
     width: 75%;
     padding-right: 5%;
-    @media(max-width: $resmobilemax){
+
+    @media(max-width: $resmobilemax) {
         padding-right: 3%;
         text-align: end;
     }
 }
 
-.menu--nav--ul{
+.menu--nav--ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     list-style: none;
-    font-size:14px;
+    font-size: 14px;
     margin: 0;
     padding: 0;
-    @media(max-width: $resmobilemax){
+
+    @media(max-width: $resmobilemax) {
         flex-direction: column;
     }
 
-    li{
+    li {
         padding: 6px 9px;
         border-radius: 5px;
-        &:hover{
+
+        &:hover {
             background-color: #3E3540;
-            > a{
-                color:#f2f2f2;
+
+            >a {
+                color: #f2f2f2;
                 background-color: #3E3540;
             }
         }
@@ -112,20 +118,23 @@ body{
         @media (min-width: $resdeskmin) {
             padding: 6px 15px;
         }
+
         @media (max-width: $resmobilemax) {
             margin-right: 0px;
         }
 
-        a{
+        a {
             font-size: 15px;
             border-radius: 5px;
             display: inline-block;
             text-decoration: none;
             color: $colortextos;
-            @media (min-width: $resdeskmin){
+
+            @media (min-width: $resdeskmin) {
                 font-size: large;
             }
-            @media (max-width: $resmobilemax){
+
+            @media (max-width: $resmobilemax) {
                 text-align: center;
                 background-color: $colorheadfoot;
                 line-height: 100%;
@@ -137,19 +146,19 @@ body{
     }
 }
 
-.box--menu--nav--ul{
+.box--menu--nav--ul {
     @media (max-width:$resmobilemax) {
-        display:flex;
+        display: flex;
         justify-content: flex-end;
-        position:absolute;
+        position: absolute;
         top: 100%;
-        right:-300px;
+        right: -300px;
         width: 45%;
         transition: right 0.2s linear;
     }
 }
 
-.text-menu-btn{
+.text-menu-btn {
     display: none;
     color: $colortextos;
     font-size: 15px;
@@ -162,14 +171,15 @@ body{
     border: none;
     padding: 10px 20px;
     padding-left: 30px;
-    @media(max-width: $resmobilemax){
+
+    @media(max-width: $resmobilemax) {
         display: inline-block;
         height: 40px;
         padding-right: 0;
-    }    
+    }
 }
 
-#menu-btn{
+#menu-btn {
     display: none;
     color: $colortextos;
     font-size: 15px;
@@ -182,14 +192,14 @@ body{
     padding: 10px 20px;
     padding-left: 30px;
 
-    @media(max-width:$resmobilemax){
-        &:checked + .box--menu--nav--ul{
-            right:0;
+    @media(max-width:$resmobilemax) {
+        &:checked+.box--menu--nav--ul {
+            right: 0;
         }
     }
 }
 
-.btn-go-top{
+.btn-go-top {
     position: fixed;
     bottom: 10%;
     right: 4%;
@@ -197,50 +207,53 @@ body{
     z-index: 9;
     cursor: pointer;
 
-    a{
-        color:#A83E48;
-        i{
+    a {
+        color: #A83E48;
+
+        i {
             font-size: xx-large;
-            &:hover{
+
+            &:hover {
                 transform: scale(1.3);
-                transition-timing-function:ease;
+                transition-timing-function: ease;
             }
         }
     }
 }
 
-main{
+main {
     padding-top: 110px;
 }
 
-h2{
+h2 {
     text-align: center;
     margin: 0 5% 50px 5%;
+
     @media(max-width: $resmobilemax) {
         font-size: 1.3em;
         margin-bottom: 25px;
     }
 }
 
-h3{
+h3 {
     text-align: center;
     margin-bottom: 45px;
 }
 
-footer{
+footer {
     @include themecolor($colorheadfoot, $colortextos);
     font-size: 1em;
     margin: 5px;
     border-radius: 10px;
-    box-shadow: -1px 1px 16px 1px rgba(0,0,0,0.75);
+    box-shadow: -1px 1px 16px 1px rgba(0, 0, 0, 0.75);
     display: grid;
     padding: 0 10%;
     column-gap: 5px;
     row-gap: 10px;
-    
+
     grid-template-columns: 2fr 3fr;
-    
-    grid-template-areas:    
+
+    grid-template-areas:
         'site_title site_title'
         'map_item text_social'
         'map_item links_social'
@@ -263,42 +276,44 @@ footer{
         row-gap: 3px;
     }
 
-    
+
 }
 
-.footer--site_title{
+.footer--site_title {
     grid-area: site_title;
     text-align: center;
 
-    p{
+    p {
         margin: 0;
     }
 }
 
-.logo_footer{
+.logo_footer {
     width: 80px;
     margin-top: 5px;
-    @media(max-width:$resmobilemax){
+
+    @media(max-width:$resmobilemax) {
         width: 50px;
     }
 }
 
-.map_item{
+.map_item {
     margin: auto;
     grid-area: map_item;
+
     @media (max-width: $resmobilemax) {
         display: inline-block;
-        text-align: center;        
+        text-align: center;
     }
 }
 
-.gmap{
+.gmap {
     width: 100%;
     height: 200px;
     border: 1px solid black;
 }
 
-.text_social{
+.text_social {
     display: flex;
     grid-area: text_social;
     align-items: center;
@@ -306,36 +321,36 @@ footer{
 }
 
 
-.links_social{
+.links_social {
     display: flex;
     grid-area: links_social;
     align-items: center;
     justify-content: center;
 
-    a{
+    a {
         margin: 0 10px;
     }
 }
 
-.text_location{
+.text_location {
     display: flex;
     grid-area: text_location;
     align-items: center;
     justify-content: center;
 
-    span{
-        @media(min-width: 737px){
+    span {
+        @media(min-width: 737px) {
             font-size: small;
         }
     }
 }
 
-.copyright{
+.copyright {
     grid-area: copyright;
     text-align: center;
 }
 
-.disclaimer{
+.disclaimer {
     grid-area: disclaimer;
     text-align: center;
     margin-bottom: 3px;
@@ -345,28 +360,28 @@ footer{
 /*      PROPIEDADES DE INDEX      */
 /*  ============================= */
 
-.padding-section{
+.padding-section {
     padding: 150px 5% 0 5%;
 }
 
-.main--index{
-    > section{
+.main--index {
+    >section {
         display: block;
         margin-bottom: 150px;
     }
 }
 
-#banner--landing{
-    background-image: 
-            linear-gradient(rgba(0, 0, 0, 0.4),
+#banner--landing {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.4),
             rgba(0, 0, 0, 0.4));
     background-repeat: no-repeat;
     background-position: center;
     padding-top: 0;
     margin: 0 0 100px 0;
-    
 
-    h1{
+
+    h1 {
         display: block;
         font-size: 2.5em;
         text-align: left;
@@ -374,21 +389,20 @@ footer{
         color: white;
         padding-left: 5%;
         position: absolute;
-        margin-top:130px
-        
+        margin-top: 130px
     }
 
-    #carousel-banner{
+    #carousel-banner {
         z-index: -1;
     }
 
-    img{
+    img {
         height: 500px;
         margin: auto;
     }
 }
 
-#intro-phrase{
+#intro-phrase {
     padding-top: 250px;
     padding-bottom: 150px;
     height: calc(100vh - 110px);
@@ -397,29 +411,29 @@ footer{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
 
-    .p-intro{
+
+    .p-intro {
         @include themecolor($colorfondo, $colortextos);
         min-width: 270px;
         margin-top: calc(20vh - 110px);
         border-radius: 10px;
 
-        p{
+        p {
             text-align: center;
             font-size: larger;
             font-weight: 400;
             color: $colortextos;
-            
+
         }
     }
 }
 
-.padding-default{
+.padding-default {
     padding: 0 10%;
 }
 
-.services--box{
+.services--box {
     overflow: hidden;
     transform-style: preserve-3d;
     transition: 0.5s;
@@ -434,7 +448,7 @@ footer{
     gap: 10px;
     margin-bottom: 50px;
 
-    @media(max-width:$resmobilemax){
+    @media(max-width:$resmobilemax) {
         grid-template-columns: 1fr;
         grid-template-areas:
             'title'
@@ -444,25 +458,25 @@ footer{
         gap: 40px;
     }
 
-    h2{
+    h2 {
         grid-area: title;
         font-weight: 500;
     }
 }
 
-.service--box{
+.service--box {
     overflow: hidden;
     transition: 0.5s;
     display: block;
     padding: 0 3% 5%;
     max-width: 310px;
 
-    p{
+    p {
         text-align: center;
         margin-bottom: 5px;
     }
-        
-    img{
+
+    img {
         transform-style: preserve-3d;
         perspective: 500px;
         width: 99%;
@@ -471,44 +485,46 @@ footer{
         border-radius: 4px;
 
         /* Sombra aplicada cuando se destaca una foto con hover */
-        &:hover{
+        &:hover {
             box-shadow: 0 5px 10px rgb(0 0 0 / 20%);
             z-index: 1;
         }
     }
-    
+
 }
 
 /*Animaciones al pasar el mouse sobre las fotos de servicios*/
 
 /* Hover sobre el contenedor de las fotos las deja a las 3 en perspectiva */
-.services--box:hover .service--box{
+.services--box:hover .service--box {
     transform: rotateY(25deg);
 }
 
 /* Hover sobre una foto en particular invierte las otras 2 */
-.services--box .service--box:hover ~ .service--box{
+.services--box .service--box:hover~.service--box {
     transform: rotateY(-25deg);
 }
 
 /* Hover sobre una foto en particular la resalta sobre las demas */
-.services--box .service--box:hover{
+.services--box .service--box:hover {
     transform: rotateY(0deg) scale(1.2);
     z-index: 1;
-    
+
 }
 
-.products{
+.products {
     grid-area: products;
 }
-.events{
+
+.events {
     grid-area: events;
 }
-.content{
+
+.content {
     grid-area: content;
 }
 
-.customer--parent-box{
+.customer--parent-box {
     display: grid;
     justify-items: center;
     grid-template-columns: 1fr 1fr 1fr;
@@ -519,7 +535,8 @@ footer{
     position: relative;
     top: 0;
     padding: 50px 10%;
-    @media(max-width:$resmobilemax){
+
+    @media(max-width:$resmobilemax) {
         grid-template-columns: 1fr;
         grid-template-areas:
             'title'
@@ -529,25 +546,25 @@ footer{
         gap: 40px;
     }
 
-    h3{
+    h3 {
         grid-area: title;
         font-weight: 500;
     }
 }
 
-.client1{
+.client1 {
     grid-area: client1;
 }
 
-.client2{
+.client2 {
     grid-area: client2;
 }
 
-.client3{
+.client3 {
     grid-area: client3;
 }
 
-.customer--box{
+.customer--box {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -558,24 +575,26 @@ footer{
     box-shadow: $sombracustomer;
     max-width: 300px;
     border-radius: 5px;
-    
-    a{
+
+    a {
         text-align: center;
     }
 
-    img{               
+    img {
         width: 50%;
-        @media(max-width:$resmobilemax){
+
+        @media(max-width:$resmobilemax) {
             width: 65%;
         }
     }
-    p{
+
+    p {
         text-align: center;
         margin-top: 3px;
     }
 }
 
-#parallax-two{
+#parallax-two {
     padding-top: 250px;
     padding-bottom: 150px;
     height: 100vh;
@@ -584,87 +603,90 @@ footer{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
+
 }
 
-.box--about{
+.box--about {
     display: flex;
     gap: 25px;
     padding: 0 10%;
     justify-content: center;
     align-items: center;
     margin: auto;
-    @media(max-width:$resmobilemax){
+
+    @media(max-width:$resmobilemax) {
         padding: 0 5%;
         flex-wrap: wrap;
     }
 }
 
-.box--about--img-sabrina{
+.box--about--img-sabrina {
     order: 1;
 }
 
-.img-sabrina{
+.img-sabrina {
     width: 200px;
     box-shadow: $sombracustomer;
     border-radius: 5px;
     margin: auto;
-    @media(max-width:$resmobilemax){
+
+    @media(max-width:$resmobilemax) {
         width: 170px;
     }
 }
 
-.box--about--text-sabrina{
+.box--about--text-sabrina {
     order: 2;
     flex-shrink: 1;
     box-shadow: $sombracustomer;
     border-radius: 5px;
     padding: 2%;
 
-    p{
-        @media(max-width:$resmobilemax){
+    p {
+        @media(max-width:$resmobilemax) {
             text-align: center;
         }
     }
-    
+
 }
 
-.about--text{
+.about--text {
     margin: 0 0 1em 0;
-    @media(max-width:$resmobilemax){
+
+    @media(max-width:$resmobilemax) {
         text-align: center;
     }
 }
 
-#contact{
+#contact {
     width: 100%;
 }
 
-.form-check-label{
-    @media(max-width:$resmobilemax){
+.form-check-label {
+    @media(max-width:$resmobilemax) {
         font-size: small;
     }
 }
 
 /* Color para los accordiones abiertos */
-.accordion-color-abierto{
-    
-    &:not(.collapsed){
+.accordion-color-abierto {
+
+    &:not(.collapsed) {
         @include themecolor($colorheadfoot, $colortextos);
     }
 }
 
 /* Bordes de los form-control 
    de bootstrap en sección de contacto */
-.form-border:focus{
+.form-border:focus {
     border-color: $colortextos;
     box-shadow: 0 0 0 0.25rem rgb(12 10 13 / 25%);
 }
 
 /* Color para el boton de consultas*/
-.btn-contact{
+.btn-contact {
     background-color: $colorheadfoot;
-    box-shadow: -1px 10px 16px -5px rgba(0,0,0,0.75);
+    box-shadow: -1px 10px 16px -5px rgba(0, 0, 0, 0.75);
     color: $colortextos;
     font-weight: 600;
 }
@@ -674,19 +696,19 @@ footer{
 /*  ============================= */
 
 /* Color para pisar props de BS */
-.txt-col{
+.txt-col {
     color: #756B67;
 }
 
-.padding-scroll{
+.padding-scroll {
     padding-top: 110px;
 }
 
-.main--blog{
+.main--blog {
     padding: 115px 5% 50px 5%;
 }
 
-.filter-content{
+.filter-content {
     font-size: 0;
     display: flex;
     justify-content: space-evenly;
@@ -694,23 +716,25 @@ footer{
     align-items: center;
 }
 
-.box--h1-blog{
+.box--h1-blog {
     vertical-align: middle;
     margin-top: 5%;
     text-align: center;
-    h1{
+
+    h1 {
         font-size: xx-large;
         display: inline-block;
-        @media(max-width:$resmobilemax){
+
+        @media(max-width:$resmobilemax) {
             font-size: large;
         }
     }
 }
 
-.box--filters{
+.box--filters {
     vertical-align: middle;
 
-    ul{
+    ul {
         list-style: none;
         font-size: 14px;
         margin: 0;
@@ -718,25 +742,26 @@ footer{
         display: flex;
         justify-content: flex-end;
 
-        li{
+        li {
             padding: 5px;
             padding-bottom: 2px;
             margin: 5px;
             margin-bottom: 0;
-            background-color:#756B67;
+            background-color: #756B67;
             border-radius: 5px;
             min-width: 50px;
             text-align: center;
             box-shadow: $sombracustomer;
 
-            a{
+            a {
                 text-decoration: none;
                 color: white;
                 font-size: smaller;
                 text-align: center;
                 min-width: 50px;
                 padding: 10px;
-                &:hover{
+
+                &:hover {
                     font-weight: bold;
                 }
             }
@@ -744,16 +769,16 @@ footer{
     }
 }
 
-.blog-content{
+.blog-content {
     display: block;
 }
 
-.article-title{
+.article-title {
     font-size: 16px;
     margin-bottom: 12px;
 }
 
-.image-blog{
+.image-blog {
     height: 100%;
 }
 
@@ -761,22 +786,79 @@ footer{
 /*      PROPIEDADES DE 404        */
 /*  ============================= */
 
-.box-error{
+.box-error {
     text-align: center;
 
-    h1{
+    h1 {
         display: block;
         font-size: 40px;
         margin-bottom: 20px;
     }
-    h2{
+
+    h2 {
         font-size: 15px;
     }
 }
 
-.img-error{
-    img{
+.img-error {
+    img {
         width: 90%;
         max-width: 500px;
     }
+}
+
+/*  ============================= */
+/*      PROPIEDADES DE STORE      */
+/*  ============================= */
+
+.box--menu--user {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 3px 6px;
+    justify-content: flex-start;
+    background-color: #3E3540;
+    height: 45px;
+    width: 70%;
+    position: fixed;
+    top: 110px;
+    border-radius: 0 0 10px 10px;
+    z-index: 3;
+    box-shadow: -1px 10px 16px -5px rgba(0, 0, 0, 0.75);
+}
+
+.menu--user {
+    color: white;
+}
+
+.main--store {
+    padding: 165px 5% 50px 5%;
+
+    h1 {
+        text-align: center;
+    }
+}
+
+.box--store {
+    border-color: #3E3540;
+    justify-content: space-between;
+
+
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: small;
+}
+
+/* Color para el boton de agregar al carrito*/
+.btn-add-item {
+    background-color: $colorheadfoot;
+    box-shadow: -1px 10px 16px -5px rgba(0, 0, 0, 0.75);
+    color: $colortextos;
+    font-weight: 600;
+    font-size: 10px;
 }
