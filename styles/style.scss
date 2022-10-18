@@ -815,7 +815,7 @@ footer {
     display: flex;
     gap: 10px;
     align-items: center;
-    padding: 3px 6px;
+    padding-left: 3%;
     justify-content: flex-start;
     background-color: #3E3540;
     height: 45px;
@@ -829,6 +829,7 @@ footer {
 
 .menu--user {
     color: white;
+    font-weight: 300;
 }
 
 .main--store {

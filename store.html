@@ -51,7 +51,7 @@
         </nav>
         <nav class="box--menu--user">
             <div class="menu--user">
-                <span>Bienvenido <em>invitado</em>.
+                <span id="nombreUser">Bienvenido <em>invitado</em>.
             </div>
             <form>
                 <button id="btnModalLogin" class="btn btn-outline-primary me-2 toggles" type="button"
@@ -62,40 +62,43 @@
         </nav>
     </header>
 
-    <main class="main--store">
-        <section class="modal-login">
-            <div class="modal " id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title" id="modalLoginLabel">Ingresá</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Cerrar"></button>
+    <section class="modal-login">
+        <div class="modal " id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="modalLoginLabel">Ingresá</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body py-2 px-4">
+                        <input id="loginEmail" class="form-control my-4" type="email"
+                            placeholder="Ingresá tu correo electrónico" required>
+                        <input id="loginPass" class="form-control my-4" type="password"
+                            placeholder="Ingresá tu contraseña" required>
+                    </div>
+                    <div class="modal-footer d-block">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Recordarme en este equipo
+                            </label>
                         </div>
-                        <div class="modal-body py-2 px-4">
-                            <input id="emailLogin" class="form-control my-4" type="email"
-                                placeholder="Ingresá tu correo electrónico" required>
-                            <input id="passwordLogin" class="form-control my-4" type="password"
-                                placeholder="Ingresá tu contraseña" required>
-                        </div>
-                        <div class="modal-footer d-block">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="recordarme">
-                                <label class="form-check-label" for="recordarme">
-                                    Recordarme en este equipo
-                                </label>
-                            </div>
-                            <button class="btn btn-outline-primary" id="login" type="submit">Log in</button>
-                        </div>
+                        <button class="btn btn-outline-primary" id="btnLogin" type="submit">Login</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
+    <main class="main--store">
         <h1>PhotoStore</h1>
         <h2>Stock de imágenes y presets para tus diseños</h2>
-
-        <section class="box--store container">
+        <div class="box--filters">
+            <select name="" id="" class="form-select">
+                <option selected value=""></option>
+            </select>
+        </div>
+        <section id="card-box" class="box--store container">
             <!-- ROW UNICO PARA TODOS LOS PRODUCTOS (CARDS) DEL STORE -->
             <div class="row g-2">
                 <!-- Ejemplo de card de producto -->
@@ -104,6 +107,7 @@
                     <div class="card-body">
                         <p class="card-title">Niños jugando</p>
                         <p class="card-text">Niños jugando en el patio al sol.</p>
+                        <p class="card-text">Precio: $100</p>
                         <a href="#" class="btn btn-add-item">Agregar al carrito</a>
                     </div>
                 </article>
