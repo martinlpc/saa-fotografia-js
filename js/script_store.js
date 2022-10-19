@@ -3,17 +3,12 @@ const usersDB = [
     {
         name: "Martin",
         mail: "martin@mail.com",
-        pass: "passwordsuperseguro",
+        pass: "1234",
     },
     {
-        name: "Sabri",
+        name: "Sabrina",
         mail: "sabrina@mail.com",
-        pass: "conejito",
-    },
-    {
-        name: "Alaska",
-        mail: "alaska@mail.com",
-        pass: "laperritadesabriymartin",
+        pass: "qwerty",
     },
 ];
 
@@ -50,15 +45,20 @@ const productsDB = [
     },
 ];
 
+const cart = [];
+
 // DOM Elements
 const loginEmail = document.getElementById("loginEmail"),
     loginPass = document.getElementById("loginPass"),
     remember = document.getElementById("rememberMe"),
     btnLogin = document.getElementById("btnLogin"),
+    btnLogout = document.getElementById("btnLogout"),
     modalElem = document.getElementById("modalLogin"),
     modal = new bootstrap.Modal(modalElem),
     cardsContainer = document.getElementById("card-box"),
-    filterCat = document.getElementById("filterCat");
+    filterCat = document.getElementById("filterCat"),
+    toggles = document.querySelectorAll(".toggles"),
+    btnItemToCart = document.querySelectorAll("a.btn-add-item");
 
 // Flag global que indica si el usuario está logueado
 let isUserLogged = false;
@@ -93,7 +93,7 @@ function saveOnStorage(userFromDB, storage) {
 
 // Modifico el DOM para mostrar el nombre del usuario en <span id="nombreUser"></span>
 function greetUser(user) {
-    nombreUser.innerHTML = `Bienvenido/a <em>${user.name}</em>`;
+    nombreUser.innerHTML = `Hola <em>${user.name}</em>! `;
 }
 
 // Levanto el usuario guardado en el storage indicado
@@ -111,12 +111,13 @@ function eraseStorages() {
 // Chequeo si el usuario está guardado para recordarlo en la proxima sesion
 // Si es así, evitamos el proceso de login manual e ingresamos directo
 function checkUserLogged(user) {
-    // if (user) {
-    //     isUserLogged = true;
-    //     greetUser(user);
-    //     // funciones adicionales a crear para users registrados
-    // }
-    user ? ((isUserLogged = true), greetUser(user)) : (isUserLogged = false);
+    if (user) {
+        isUserLogged = true;
+        greetUser(user);
+        toggleElem(toggles, "d-none");
+    } else {
+        isUserLogged = false;
+    }
 }
 
 // Agrega (filtra) los items del store por categoria seleccionada
@@ -161,6 +162,13 @@ function addCardsByCat(array, cat) {
     }
 }
 
+// Función que muestra o oculta elementos del DOM usando el param toggleClass
+function toggleElem(DomElems, toggleClass) {
+    DomElems.forEach((elem) => {
+        elem.classList.toggle(toggleClass);
+    });
+}
+
 //
 //           EVENTOS
 //
@@ -171,7 +179,9 @@ filterCat.addEventListener("change", (e) => {
 });
 
 // Cargamos el store con los productos del array al abrir la pag
+// y chequeamos si hay un user en local que decidio ser recordado
 window.onload = () => {
+    checkUserLogged(retrieveUserFromStorage(localStorage));
     addCardsByCat(productsDB, "all");
 };
 
@@ -202,6 +212,14 @@ btnLogin.addEventListener("click", (e) => {
             }
             // Ahora se cierra el modal
             modal.hide();
+            toggleElem(toggles, "d-none");
         }
     }
 });
+
+btnLogout.addEventListener("click", () => {
+    eraseStorages();
+    toggleElem(toggles, "d-none");
+});
+
+btnItemToCart.addEventListener("click", (e) => {});

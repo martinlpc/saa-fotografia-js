@@ -15,6 +15,6 @@ Notas:
     . precio
 
 Carga de productos en store: OK
-Logica de LOGIN/LOGOUT: EN PROCESO
-Carga de productos al carrito: TBD
+Logica de LOGIN/LOGOUT: OK
+Carga de productos al carrito: EN PROCESO
 Compra de productos en el carro: TBD

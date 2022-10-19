@@ -51,13 +51,16 @@
         </nav>
         <nav class="box--menu--user">
             <div class="menu--user">
-                <span id="nombreUser">Bienvenido <em>invitado</em>.
+                <span class='toggles'>Iniciá sesión</span>
+                <span class="d-none toggles" id="nombreUser"></span>
+                <i class="fa-solid fa-cart-shopping toggles d-none"></i>
+                <span id="contCart" class="toggles d-none"></span>
             </div>
             <form>
                 <button id="btnModalLogin" class="btn btn-outline-primary me-2 toggles" type="button"
                     data-bs-toggle="modal" data-bs-target="#modalLogin">Login</button>
                 <button id="btnLogout" class="btn btn-outline-secondary d-none toggles" type="button">Logout</button>
-                <p id="nombreUsuario" class="d-none toggles"></p>
+                <p id="nombreUsuario" class="d-none"></p>
             </form>
         </nav>
     </header>
