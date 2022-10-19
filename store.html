@@ -63,7 +63,7 @@
     </header>
 
     <section class="modal-login">
-        <div class="modal " id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+        <div class="modal" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -91,30 +91,19 @@
     </section>
 
     <main class="main--store">
-        <h1>PhotoStore</h1>
-        <h2>Stock de imágenes y presets para tus diseños</h2>
-        <div class="box--filters">
-            <select name="" id="" class="form-select">
-                <option selected value=""></option>
+        <h1>Store</h1>
+        <div class="box--filter">
+            <select name="" id="filterCat" class="form-select">
+                <option selected value="all">Todo</option>
+                <option value="img">Imágenes</option>
+                <option value="ebook">E-Books</option>
+                <option value="preset">Presets</option>
             </select>
         </div>
-        <section id="card-box" class="box--store container">
+        <section class="box--store container">
             <!-- ROW UNICO PARA TODOS LOS PRODUCTOS (CARDS) DEL STORE -->
-            <div class="row g-2">
-                <!-- Ejemplo de card de producto -->
-                <article class="col-12 col-md-6 col-lg-3 card">
-                    <img src="./res/store/kids-play-sun.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-title">Niños jugando</p>
-                        <p class="card-text">Niños jugando en el patio al sol.</p>
-                        <p class="card-text">Precio: $100</p>
-                        <a href="#" class="btn btn-add-item">Agregar al carrito</a>
-                    </div>
-                </article>
-
-
-
-
+            <div id="card-box" class="row g-2">
+                <!-- Acá se colocan los productos dinámicamente desde el script -->
             </div>
         </section>
     </main>
@@ -154,6 +143,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous">
     </script>
+    <script src="./js/script_store.js"></script>
 </body>
 
 </html>

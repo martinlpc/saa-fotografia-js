@@ -13,3 +13,8 @@ Notas:
     . categoria
     . src_img
     . precio
+
+Carga de productos en store: OK
+Logica de LOGIN/LOGOUT: EN PROCESO
+Carga de productos al carrito: TBD
+Compra de productos en el carro: TBD

@@ -843,8 +843,17 @@ footer {
 .box--store {
     border-color: #3E3540;
     justify-content: space-between;
+}
 
+.box--filter {
+    display: flex;
+    width: 99%;
+    justify-content: flex-end;
+    margin-bottom: 2%;
 
+    select {
+        width: fit-content;
+    }
 }
 
 .card-title {
