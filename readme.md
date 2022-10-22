@@ -16,5 +16,5 @@ Notas:
 
 Carga de productos en store: OK
 Logica de LOGIN/LOGOUT: OK
-Carga de productos al carrito: EN PROCESO
+Carga de productos al carrito: EN PROCESO, falta mostrar contenido del carrito
 Compra de productos en el carro: TBD

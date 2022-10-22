@@ -16,9 +16,11 @@
         href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400;1,700&display=swap"
         rel="stylesheet" />
 
-    <!-- CSS de BOOTSTRAP -->
+    <!-- CSS externos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     <!-- CSS propio -->
     <link rel="stylesheet" href="styles/style.css" />
 </head>
@@ -54,13 +56,13 @@
                 <span class='toggles'>Iniciá sesión</span>
                 <span class="d-none toggles" id="nombreUser"></span>
                 <i class="fa-solid fa-cart-shopping toggles d-none"></i>
-                <span id="contCart" class="toggles d-none"></span>
+                <span id="contCart" class="toggles d-none">0</span>
             </div>
             <form>
                 <button id="btnModalLogin" class="btn btn-outline-primary me-2 toggles" type="button"
                     data-bs-toggle="modal" data-bs-target="#modalLogin">Login</button>
                 <button id="btnLogout" class="btn btn-outline-secondary d-none toggles" type="button">Logout</button>
-                <p id="nombreUsuario" class="d-none"></p>
+                <!-- <p id="nombreUsuario" class="d-none"></p> -->
             </form>
         </nav>
     </header>
@@ -92,7 +94,6 @@
             </div>
         </div>
     </section>
-
     <main class="main--store">
         <h1>Store</h1>
         <div class="box--filter">
@@ -106,7 +107,8 @@
         <section class="box--store container">
             <!-- ROW UNICO PARA TODOS LOS PRODUCTOS (CARDS) DEL STORE -->
             <div id="card-box" class="row g-2">
-                <!-- Acá se colocan los productos dinámicamente desde el script -->
+                <!-- ELEMENTOS GENERADOS DESDE EL SCRIPT_STORE -->
+
             </div>
         </section>
     </main>
@@ -146,6 +148,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
         integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js"
+        integrity="sha512-ZHzbWDQKpcZxIT9l5KhcnwQTidZFzwK/c7gpUUsFvGjEsxPusdUCyFxjjpc7e/Wj7vLhfMujNx7COwOmzbn+2w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./js/script_store.js"></script>
 </body>
 
