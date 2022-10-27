@@ -75,7 +75,6 @@ function validateUser(database, user, pass) {
         return false;
     } else {
         // Usuario existe, comprobamos password
-
         if (found.pass != pass) {
             return false;
         } else {
@@ -97,6 +96,10 @@ function saveInStorage(userCurrent, storage) {
 
 // Modifico el DOM para mostrar el nombre del usuario en <span id="nombreUser"></span>
 function greetUser(user) {
+    Swal.fire({
+        icon: "success",
+        title: "Hola " + user.name,
+    });
     nombreUser.innerHTML = `Hola <em>${user.name}</em>! `;
 }
 
@@ -135,13 +138,7 @@ function renderProducts(arrayData, cat) {
     // Definimos un array temporal con el filtrado, o no, de las categorías
     let arrayTemp = [];
     // Chequeo si se pidió una cat específica o todas
-    if (cat != "all") {
-        // Armo un array con los elementos de la cat indicada
-        arrayTemp = arrayData.filter((el) => el.cat == cat);
-    } else {
-        // Se selecciono ver todas las cat, se copia el array entero de items
-        arrayTemp = Array.from(arrayData);
-    }
+    cat != "all" ? (arrayTemp = arrayData.filter((el) => el.cat == cat)) : (arrayTemp = Array.from(arrayData));
 
     arrayTemp.forEach((elem) => {
         // Estructura
@@ -172,7 +169,7 @@ function renderProducts(arrayData, cat) {
         myNodeButton.textContent = "Agregar al carrito";
         myNodeButton.setAttribute("item-id", elem.id);
         myNodeButton.addEventListener("click", addItemCart);
-        // Generamos html e insertamos
+        // Generamos htmls e insertamos
         myNodeCardBody.appendChild(myNodeTitle);
         myNodeCardBody.appendChild(myNodeDesc);
         myNodeCardBody.appendChild(myNodePrice);
@@ -225,10 +222,8 @@ btnLogin.addEventListener("click", (e) => {
             alert("Usuario o contraseña erróneos");
         } else {
             // Chequeamos si eligio recordar su sesion en el navegador del equipo
-            if (remember.checked) {
-                // Si: guardar en local y session
-                saveInStorage(userData, localStorage);
-            }
+            remember.checked && saveInStorage(userData, localStorage);
+            // Guardamos datos en el session siempre
             saveInStorage(userData, sessionStorage);
             greetUser(retrieveUserFromStorage(sessionStorage));
             userData.cart.forEach((elem) => {
@@ -290,9 +285,7 @@ function addItemCart(event) {
             let user = retrieveUserFromStorage(sessionStorage);
             user.cart = [...cart];
             saveInStorage(user, sessionStorage);
-            if (remember.checked) {
-                saveInStorage(user, localStorage);
-            }
+            remember.checked && saveInStorage(user, localStorage);
         }
     } else {
         Toastify({
