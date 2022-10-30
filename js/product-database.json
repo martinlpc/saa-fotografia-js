@@ -1,0 +1,34 @@
+[
+    {
+        "id": "001",
+        "name": "Niños jugando",
+        "desc": "Niños jugando en el parque al sol",
+        "cat": "img",
+        "src_img": "./res/store/kids-play-sun.jpg",
+        "price": "100"
+    },
+    {
+        "id": "002",
+        "name": "Monte Fitz Roy",
+        "desc": "Vista del monte Fitz Roy en alta calidad",
+        "cat": "img",
+        "src_img": "./res/store/fitz-roy.jpg",
+        "price": "200"
+    },
+    {
+        "id": "003",
+        "name": "E-book: Preparando tu prodcto antes de las fotos",
+        "desc": "Consejos y nociones de utilidad para preparar tu producto antes de publicitarlo",
+        "cat": "ebook",
+        "src_img": "./res/store/ebook-id003.jpg",
+        "price": "500"
+    },
+    {
+        "id": "004",
+        "name": "LightRoom Preset: Vintage 11",
+        "desc": "Aplica estilo Vintage a tu foto en LR",
+        "cat": "preset",
+        "src_img": "./res/store/preset-vintage-id004.jpg",
+        "price": "500"
+    }
+]

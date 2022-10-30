@@ -872,3 +872,27 @@ footer {
     font-weight: 600;
     font-size: 10px;
 }
+
+// Estilos del card carrito
+.cart-container {
+    background-color: $colorfondo;
+    width: 80%;
+    position: fixed;
+
+
+    z-index: 3;
+    border-radius: 20px;
+
+    box-shadow: -1px 0px 5px 5px rgba(0, 0, 0, 0.24);
+    ;
+}
+
+#linkClearCart {
+    span {
+        cursor: pointer;
+        color: red;
+        text-decoration: underline;
+        font-size: small;
+    }
+
+}

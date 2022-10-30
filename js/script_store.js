@@ -1,4 +1,6 @@
-//DB de usuarios fantasía
+//
+//  ---------------------------         DB USARIOS        ---------------------------  //
+//
 const usersDB = [
     {
         name: "Martin",
@@ -13,43 +15,21 @@ const usersDB = [
         cart: [],
     },
 ];
-
-const productsDB = [
-    {
-        id: "001",
-        name: "Niños jugando",
-        desc: "Niños jugando en el parque al sol",
-        cat: "img",
-        src_img: "./res/store/kids-play-sun.jpg",
-        price: "100",
-    },
-    {
-        id: "002",
-        name: "Monte Fitz Roy",
-        desc: "Vista del monte Fitz Roy en alta calidad",
-        cat: "img",
-        src_img: "...",
-        price: "200",
-    },
-    {
-        id: "003",
-        name: "E-book: Preparando tu prodcto antes de las fotos",
-        desc: "Consejos y nociones de utilidad para preparar tu producto antes de publicitarlo",
-        cat: "ebook",
-        price: "500",
-    },
-    {
-        id: "004",
-        name: "LightRoom Preset: Vintage 11",
-        desc: "Aplica estilo Vintage a tu foto en LR",
-        cat: "preset",
-        price: "500",
-    },
-];
-
+//
+//  ---------------------------         DB PRODUCTOS        ---------------------------  //
+//
+// * Array de destino donde se van a guardar los datos que fetched desde el json
+let fetchedProducts = [];
+// URLs de las "bases de datos" en archivos json locales
+const URLproducts = "./js/product-database.json";
+//
+//  ---------------------------         ARRAY DEL CARRITO        ---------------------------  //
+//
 let cart = [];
 
-// DOM Elements
+//
+//  ---------------------------         DOM ELEMENTS        ---------------------------  //
+//
 const loginEmail = document.getElementById("loginEmail"),
     loginPass = document.getElementById("loginPass"),
     remember = document.getElementById("rememberMe"),
@@ -61,26 +41,25 @@ const loginEmail = document.getElementById("loginEmail"),
     filterCat = document.getElementById("filterCat"),
     toggles = document.querySelectorAll(".toggles"),
     btnItemToCart = document.querySelectorAll("button.btn-add-item"),
-    contCart = document.getElementById("contCart");
+    contCart = document.getElementById("contCart"),
+    btnCart = document.getElementById("btnCart"),
+    cartBox = document.getElementById("cartBox");
 
-// Flag global que indica si el usuario está logueado, inicializa en false
+//
+//  ---------------------------         FLAGS Y CONST        ---------------------------  //
+//
+// Indica si el usuario se encuentra actualmente loggeado para operar en la tienda
 let isUserLogged = false;
 
+//
+//  ---------------------------         FUNCIONES        ---------------------------  //
+//
 // Valida si existe el usuario y devuelve el obj, sino, devuelve FALSE
-function validateUser(database, user, pass) {
-    let found = database.find((database) => database.mail == user);
-
-    if (typeof found === "undefined") {
-        // Usuario no existe
-        return false;
-    } else {
-        // Usuario existe, comprobamos password
-        if (found.pass != pass) {
-            return false;
-        } else {
-            return found;
-        }
-    }
+function validateUser(user, pass) {
+    let found = usersDB.find((userInDB) => userInDB.mail == user);
+    let response;
+    typeof found === "undefined" ? (response = false) : found.pass != pass ? (response = false) : (response = found);
+    return response;
 }
 
 // Guarda el usuario recuperado de la DB en el storage indicado
@@ -98,9 +77,11 @@ function saveInStorage(userCurrent, storage) {
 function greetUser(user) {
     Swal.fire({
         icon: "success",
-        title: "Hola " + user.name,
+        title: "Hola " + user.name + " !",
+        timer: 2000,
+        timerProgressBar: true,
     });
-    nombreUser.innerHTML = `Hola <em>${user.name}</em>! `;
+    nombreUser.innerHTML = `Hola <em>${user.name}</em>!`;
 }
 
 // Levanto el usuario guardado en el storage indicado
@@ -130,8 +111,20 @@ function checkUserLogged(user) {
     }
 }
 
+const fetchProducts = async () => {
+    try {
+        const response = await fetch(URLproducts);
+        const data = await response.json();
+        fetchedProducts = [...data];
+        renderProducts(fetchedProducts, "all");
+    } catch (err) {
+        console.log(err.message);
+    }
+};
+
 // Agrega (filtra) los items del store por categoria seleccionada
 // Si se quiere listar TODOS los elementos del store, se envía el parámetro cat: all (value del select)
+// ! LEVANTA LA INFO DE UN ARRAY PREVIAMENTE CARGADO DESDE EL JSON DE PRODUCTOS
 function renderProducts(arrayData, cat) {
     // Limpiamos el contenedor de las cards de los productos
     cardsContainer.innerHTML = "";
@@ -143,7 +136,7 @@ function renderProducts(arrayData, cat) {
     arrayTemp.forEach((elem) => {
         // Estructura
         const myNode = document.createElement("article");
-        myNode.classList.add("card", "col-12", "col-md-6", "col-lg-3");
+        myNode.classList.add("card", "col-12", "col-md-6", "col-lg-3", "text-center");
         // Imagen
         const myNodeImg = document.createElement("img");
         myNodeImg.classList.add("img-fluid", "card-img-top");
@@ -180,7 +173,7 @@ function renderProducts(arrayData, cat) {
     });
 }
 
-// Función que muestra o oculta elementos del DOM usando el param toggleClass
+// Función que muestra o oculta un grupo de elementos del DOM usando el param toggleClass
 function toggleElem(DomElems, toggleClass) {
     DomElems.forEach((elem) => {
         elem.classList.toggle(toggleClass);
@@ -192,19 +185,19 @@ function countCartItems() {
 }
 
 //
-//           EVENTOS
+//  ---------------------------         EVENTOS        ---------------------------  //
 //
 
 // Evento captura el item en el filtro de categorias
 filterCat.addEventListener("change", (e) => {
-    renderProducts(productsDB, e.target.value);
+    renderProducts(fetchedProducts, e.target.value);
 });
 
 // Cargamos el store con los productos del array al abrir la pag
 // y chequeamos si hay un user en local que decidio ser recordado
 window.onload = () => {
     checkUserLogged(retrieveUserFromStorage(localStorage));
-    renderProducts(productsDB, "all");
+    fetchProducts();
 };
 
 btnLogin.addEventListener("click", (e) => {
@@ -213,13 +206,19 @@ btnLogin.addEventListener("click", (e) => {
     e.preventDefault();
     // Chequeo de campos vacíos
     if (!loginEmail.value || !loginPass.value) {
-        alert("Complete ambos campos.");
+        Swal.fire({
+            title: "Complete ambos campos",
+            icon: "warning",
+        });
     } else {
         // Validamos si el usuario existe o no
         // validateUser() devuelve false o el obj del user
-        let userData = validateUser(usersDB, loginEmail.value, loginPass.value);
+        let userData = validateUser(loginEmail.value, loginPass.value);
         if (!userData) {
-            alert("Usuario o contraseña erróneos");
+            Swal.fire({
+                title: "Usuario y/o contraseña incorrecto(s)",
+                icon: "error",
+            });
         } else {
             // Chequeamos si eligio recordar su sesion en el navegador del equipo
             remember.checked && saveInStorage(userData, localStorage);
@@ -267,7 +266,7 @@ function addItemCart(event) {
                 },
             }).showToast();
         } else {
-            cart.push(productsDB.find((elem) => elem.id == itemID));
+            cart.push(fetchedProducts.find((elem) => elem.id == itemID));
             Toastify({
                 text: "Producto agregado al carrito",
                 duration: 2000,
@@ -301,3 +300,7 @@ function addItemCart(event) {
         }).showToast();
     }
 }
+
+btnCart.onclick = () => {
+    cartBox.classList.toggle("d-none");
+};

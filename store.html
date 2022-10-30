@@ -53,16 +53,16 @@
         </nav>
         <nav class="box--menu--user">
             <div class="menu--user">
-                <span class='toggles'>Iniciá sesión</span>
                 <span class="d-none toggles" id="nombreUser"></span>
-                <i class="fa-solid fa-cart-shopping toggles d-none"></i>
-                <span id="contCart" class="toggles d-none">0</span>
+                <button id="btnCart" class="btn btn-primary toggles d-none">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="contCart">0</span>
+                </button>
             </div>
             <form>
-                <button id="btnModalLogin" class="btn btn-outline-primary me-2 toggles" type="button"
-                    data-bs-toggle="modal" data-bs-target="#modalLogin">Login</button>
-                <button id="btnLogout" class="btn btn-outline-secondary d-none toggles" type="button">Logout</button>
-                <!-- <p id="nombreUsuario" class="d-none"></p> -->
+                <button id="btnModalLogin" class="btn btn-primary me-2 toggles" type="button" data-bs-toggle="modal"
+                    data-bs-target="#modalLogin">Login</button>
+                <button id="btnLogout" class="btn btn-secondary me-2 d-none toggles" type="button">Logout</button>
             </form>
         </nav>
     </header>
@@ -94,6 +94,42 @@
             </div>
         </div>
     </section>
+
+    <section id="cartBox" class="cart-container container d-none p-3 top-50 start-50 translate-middle h-auto">
+        <div class="cart-header row justify-content-between align-items-baseline">
+            <div class="col-9 fs-3">
+                <span>Mi carrito</span>
+            </div>
+            <div id="linkClearCart" class="col-3 justify-content-end">
+                <span>Vaciar carrito</span>
+            </div>
+        </div>
+        <div class="cart-item row align-items-center mt-1">
+            <img src="/./res/store/fitz-roy.jpg" class="col-5"></img>
+            <div class="col-4">
+                <span>Monte Fitz Roy</span>
+            </div>
+            <div class="col-1">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+            <div class="col-2">
+                <span>$200</span>
+            </div>
+        </div>
+        <div class="cart-item row align-items-center mt-1">
+            <img src="/./res/store/kids-play-sun.jpg" class="col-5"></img>
+            <div class="col-4">
+                <span>Niños jugando</span>
+            </div>
+            <div class="col-1">
+                <i class="fa-regular fa-trash-can"></i>
+            </div>
+            <div class="col-2">
+                <span>$100</span>
+            </div>
+        </div>
+    </section>
+
     <main class="main--store">
         <h1>Store</h1>
         <div class="box--filter">
@@ -112,7 +148,6 @@
             </div>
         </section>
     </main>
-
     <footer>
         <div class="footer--site_title">
             <img class="logo_footer" src="res/logo-saa.png" title="SAA Professional photography and edition"
