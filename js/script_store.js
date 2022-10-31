@@ -18,7 +18,7 @@ const usersDB = [
 //
 //  ---------------------------         DB PRODUCTOS        ---------------------------  //
 //
-// * Array de destino donde se van a guardar los datos que fetched desde el json
+// * Array de destino donde se van a guardar los datos fetched desde el json
 let fetchedProducts = [];
 // URLs de las "bases de datos" en archivos json locales
 const URLproducts = "./js/product-database.json";
@@ -239,9 +239,14 @@ btnLogin.addEventListener("click", (e) => {
 });
 
 btnLogout.addEventListener("click", () => {
+    // Se eliminan los datos de usuario de los storages
     eraseStorages();
+    // Contador de items en carrito a cero
     contCart.innerHTML = "0";
+    // Se ocultan los elementos del DOM correspondientes
     toggleElem(toggles, "d-none");
+    // Bandera de usuario loggeado en false
+    isUserLogged = false;
 });
 
 // Se dispara cuando se clickea en algun "añadir al carrito"
