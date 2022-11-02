@@ -52,18 +52,48 @@
             </div>
         </nav>
         <nav class="box--menu--user">
-            <div class="menu--user">
-                <span class="d-none toggles" id="nombreUser"></span>
-                <button id="btnCart" class="btn btn-primary toggles d-none">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="contCart">0</span>
-                </button>
-            </div>
-            <form>
-                <button id="btnModalLogin" class="btn btn-primary me-2 toggles" type="button" data-bs-toggle="modal"
-                    data-bs-target="#modalLogin">Login</button>
-                <button id="btnLogout" class="btn btn-secondary me-2 d-none toggles" type="button">Logout</button>
-            </form>
+            <ul class="menu--user">
+                <li>
+                    <span class="d-none toggles" id="nombreUser"></span>
+                </li>
+                <li>
+                    <a href="#" id="btnCart" class="btn btn-primary toggles d-none">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span id="contCart">0</span>
+                    </a>
+                    <div class="box-cart d-none position-absolute p-2">
+                        <h1 class="heading-cart text-center">Mi Carrito</h1>
+                        <hr />
+                        <div class="my-3">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Img</th>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Remover</th>
+                                        <th scope="col">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-items"></tbody>
+                                <tfoot>
+                                    <tr id="footer-cart">
+                                        <!-- <th class="text-center" scope="row" colspan="4">Carrito vacío</th> -->
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <form>
+                        <button id="btnModalLogin" class="btn btn-primary me-2 toggles" type="button"
+                            data-bs-toggle="modal" data-bs-target="#modalLogin">Login</button>
+                        <button id="btnLogout" class="btn btn-secondary me-2 d-none toggles"
+                            type="button">Logout</button>
+                    </form>
+                </li>
+            </ul>
+
         </nav>
     </header>
 
@@ -95,7 +125,7 @@
         </div>
     </section>
 
-    <section id="cartBox" class="cart-container container d-none p-3 top-50 start-50 translate-middle h-auto">
+    <!-- <section id="cartBox" class="cart-container container d-none p-3 top-50 start-50 translate-middle">
         <div class="cart-header row justify-content-between align-items-baseline">
             <div class="col-9 fs-3">
                 <span>Mi carrito</span>
@@ -104,6 +134,7 @@
                 <span>Vaciar carrito</span>
             </div>
         </div>
+
         <div class="cart-item row align-items-center mt-1">
             <img src="/./res/store/fitz-roy.jpg" class="col-5"></img>
             <div class="col-4">
@@ -116,19 +147,7 @@
                 <span>$200</span>
             </div>
         </div>
-        <div class="cart-item row align-items-center mt-1">
-            <img src="/./res/store/kids-play-sun.jpg" class="col-5"></img>
-            <div class="col-4">
-                <span>Niños jugando</span>
-            </div>
-            <div class="col-1">
-                <i class="fa-regular fa-trash-can"></i>
-            </div>
-            <div class="col-2">
-                <span>$100</span>
-            </div>
-        </div>
-    </section>
+    </section> -->
 
     <main class="main--store">
         <h1>Store</h1>
@@ -148,6 +167,27 @@
             </div>
         </section>
     </main>
+
+    <template id="template-footer">
+        <th scope="row" colspan="2">Total productos</th>
+        <td>10</td>
+        <td>
+            <button class="btn btn-danger btn-sm" id="vaciar-carrito">
+                vaciar todo
+            </button>
+        </td>
+        <td class="font-weight-bold">$ <span>5000</span></td>
+    </template>
+
+    <!-- <template id="template-cart">
+        <tr>
+            <td scope="row">img</td>
+            <td>nombre</td>
+            <td>remover</td>
+            <td>$ <span>importe</span></td>
+        </tr>
+    </template> -->
+
     <footer>
         <div class="footer--site_title">
             <img class="logo_footer" src="res/logo-saa.png" title="SAA Professional photography and edition"

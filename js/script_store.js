@@ -19,38 +19,41 @@ const usersDB = [
 //  ---------------------------         DB PRODUCTOS        ---------------------------  //
 //
 // * Array de destino donde se van a guardar los datos fetched desde el json
+// * Los productos son de única instancia, se simplifica usando array en vez de objeto
 let fetchedProducts = [];
 // URLs de las "bases de datos" en archivos json locales
-const URLproducts = "./js/product-database.json";
+const URL_PRODUCTS = "./js/product-database.json";
 //
 //  ---------------------------         ARRAY DEL CARRITO        ---------------------------  //
-//
+
 let cart = [];
 
 //
 //  ---------------------------         DOM ELEMENTS        ---------------------------  //
 //
-const loginEmail = document.getElementById("loginEmail"),
-    loginPass = document.getElementById("loginPass"),
-    remember = document.getElementById("rememberMe"),
-    btnLogin = document.getElementById("btnLogin"),
-    btnLogout = document.getElementById("btnLogout"),
-    modalElem = document.getElementById("modalLogin"),
-    modal = new bootstrap.Modal(modalElem),
-    cardsContainer = document.getElementById("card-box"),
-    filterCat = document.getElementById("filterCat"),
-    toggles = document.querySelectorAll(".toggles"),
-    btnItemToCart = document.querySelectorAll("button.btn-add-item"),
-    contCart = document.getElementById("contCart"),
-    btnCart = document.getElementById("btnCart"),
-    cartBox = document.getElementById("cartBox");
+const loginEmail = document.getElementById("loginEmail");
+const loginPass = document.getElementById("loginPass");
+const remember = document.getElementById("rememberMe");
+const btnLogin = document.getElementById("btnLogin");
+const btnLogout = document.getElementById("btnLogout");
+const modalElem = document.getElementById("modalLogin");
+const modal = new bootstrap.Modal(modalElem);
+const cardsContainer = document.getElementById("card-box");
+const filterCat = document.getElementById("filterCat");
+const toggles = document.querySelectorAll(".toggles");
+const btnItemToCart = document.querySelectorAll("button.btn-add-item");
+const contCart = document.getElementById("contCart");
+const btnCart = document.getElementById("btnCart");
+const cartBox = document.querySelector(".box-cart");
+const cartItems = document.querySelector("#cart-items");
 
 //
 //  ---------------------------         FLAGS Y CONST        ---------------------------  //
 //
 // Indica si el usuario se encuentra actualmente loggeado para operar en la tienda
 let isUserLogged = false;
-
+// Acumulador para suma de precio total
+let totalPrice = 0;
 //
 //  ---------------------------         FUNCIONES        ---------------------------  //
 //
@@ -81,7 +84,7 @@ function greetUser(user) {
         timer: 2000,
         timerProgressBar: true,
     });
-    nombreUser.innerHTML = `Hola <em>${user.name}</em>!`;
+    nombreUser.innerHTML = `${user.name}`;
 }
 
 // Levanto el usuario guardado en el storage indicado
@@ -106,14 +109,16 @@ function checkUserLogged(user) {
         toggleElem(toggles, "d-none");
         cart = [...user.cart];
         countCartItems();
+        renderCart();
     } else {
         isUserLogged = false;
     }
 }
 
+// fetch a la DB de productos para cargarlos en array
 const fetchProducts = async () => {
     try {
-        const response = await fetch(URLproducts);
+        const response = await fetch(URL_PRODUCTS);
         const data = await response.json();
         fetchedProducts = [...data];
         renderProducts(fetchedProducts, "all");
@@ -124,7 +129,7 @@ const fetchProducts = async () => {
 
 // Agrega (filtra) los items del store por categoria seleccionada
 // Si se quiere listar TODOS los elementos del store, se envía el parámetro cat: all (value del select)
-// ! LEVANTA LA INFO DE UN ARRAY PREVIAMENTE CARGADO DESDE EL JSON DE PRODUCTOS
+// * LEVANTA LA INFO DE UN ARRAY PREVIAMENTE CARGADO DESDE EL JSON DE PRODUCTOS
 function renderProducts(arrayData, cat) {
     // Limpiamos el contenedor de las cards de los productos
     cardsContainer.innerHTML = "";
@@ -196,8 +201,8 @@ filterCat.addEventListener("change", (e) => {
 // Cargamos el store con los productos del array al abrir la pag
 // y chequeamos si hay un user en local que decidio ser recordado
 window.onload = () => {
-    checkUserLogged(retrieveUserFromStorage(localStorage));
     fetchProducts();
+    checkUserLogged(retrieveUserFromStorage(localStorage));
 };
 
 btnLogin.addEventListener("click", (e) => {
@@ -272,6 +277,7 @@ function addItemCart(event) {
             }).showToast();
         } else {
             cart.push(fetchedProducts.find((elem) => elem.id == itemID));
+            renderCart();
             Toastify({
                 text: "Producto agregado al carrito",
                 duration: 2000,
@@ -284,7 +290,6 @@ function addItemCart(event) {
                 },
             }).showToast();
 
-            // ++contCart
             contCart.innerHTML = parseInt(contCart.innerHTML) + 1;
             let user = retrieveUserFromStorage(sessionStorage);
             user.cart = [...cart];
@@ -306,6 +311,73 @@ function addItemCart(event) {
     }
 }
 
+// Renderiza el carrito
+const renderCart = () => {
+    // reset del carrito
+    cartItems.innerHTML = "";
+
+    // Armado de los rows de la tabla
+    cart.forEach((elem) => {
+        // Creamos la fila/row del item a agregar
+        const myNode = document.createElement("tr");
+        // Contenedor del thumbnail
+        const myNodeBoxThumbnail = document.createElement("td");
+        // Imagen
+        const myNodeThumbnail = document.createElement("img");
+        myNodeThumbnail.setAttribute("src", elem.src_img);
+        myNodeThumbnail.classList.add("cart-thumb");
+        // Contenedor del nombre
+        const myNodeBoxName = document.createElement("td");
+        // Nombre
+        const myNodeName = document.createElement("span");
+        myNodeName.textContent = elem.name;
+        // Boton de borrar del carro
+        const myNodeBoxAnchor = document.createElement("td");
+        myNodeBoxAnchor.classList.add("remove-item-btn");
+        const myNodeAnchor = document.createElement("a");
+        myNodeAnchor.setAttribute("href", "#");
+        myNodeAnchor.setAttribute("item-id", elem.id);
+        myNodeAnchor.addEventListener("click", removeItemCart);
+        const myNodeButton = document.createElement("i");
+        myNodeButton.classList.add("fa-regular", "fa-trash-can");
+        // Contenedor del precio
+        const myNodeBoxPrice = document.createElement("td");
+        // Precio
+        const myNodePrice = document.createElement("span");
+        myNodePrice.innerHTML = `$${elem.price}`;
+        // Anidamos elementos hijos directos del row
+        myNode.append(myNodeBoxThumbnail);
+        myNode.append(myNodeBoxName);
+        myNode.append(myNodeBoxAnchor);
+        myNode.append(myNodeBoxPrice);
+        // Anidamos elementos hijos de cada contenedor
+        myNodeBoxThumbnail.append(myNodeThumbnail);
+        myNodeBoxName.append(myNodeName);
+        myNodeBoxAnchor.append(myNodeAnchor);
+        myNodeAnchor.append(myNodeButton);
+        myNodeBoxPrice.append(myNodePrice);
+        // Insertamos el row en la tabla
+        /*  ESTRUCTURA FINAL A INSERTAR
+            <tr>
+                <td><img></img></td>
+                <td><span></span></td>
+                <td><a><i></i></a></td>
+                <td><span></span></td>
+            </tr>
+        */
+        cartItems.append(myNode);
+
+        totalPrice += parseFloat(elem.price);
+    });
+
+    // Armado del footer de la tabla con el precio total
+    // TODO: Armar el footer con la misma tecnica de nodos
+};
+
+// Muestra o esconde el carrito
 btnCart.onclick = () => {
     cartBox.classList.toggle("d-none");
 };
+
+// TODO: Implementar boton remover item y volver a render carrito
+const removeItemCart = (event) => {};

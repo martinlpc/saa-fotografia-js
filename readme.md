@@ -14,7 +14,14 @@ Notas:
     . src_img
     . precio
 
-Carga de productos en store: OK
-Logica de LOGIN/LOGOUT: OK
-Carga de productos al carrito: EN PROCESO, falta mostrar contenido del carrito
-Compra de productos en el carro: TBD
+-   Carga de productos en store: OK
+-   Logica de LOGIN/LOGOUT: OK
+-   Carga de productos al carrito:
+    . CONTAR PRODS EN EL ICON: OK
+    . SUMARLOS AL ARRAY CART: OK
+    . RECARGAR TODO DEL LOCALSTORAGE: OK
+
+    . RENDER EN CART: FALTA BTN REMOVER ITEM
+    . IMPORTE TOTAL: TO-DO
+
+-   Compra de productos en el carro: TO-DO
