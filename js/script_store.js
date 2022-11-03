@@ -46,6 +46,7 @@ const contCart = document.getElementById("contCart");
 const btnCart = document.getElementById("btnCart");
 const cartBox = document.querySelector(".box-cart");
 const cartItems = document.querySelector("#cart-items");
+const cartFooter = document.querySelector("#footer-cart");
 
 //
 //  ---------------------------         FLAGS Y CONST        ---------------------------  //
@@ -54,6 +55,7 @@ const cartItems = document.querySelector("#cart-items");
 let isUserLogged = false;
 // Acumulador para suma de precio total
 let totalPrice = 0;
+
 //
 //  ---------------------------         FUNCIONES        ---------------------------  //
 //
@@ -104,11 +106,11 @@ function eraseStorages() {
 function checkUserLogged(user) {
     if (user) {
         isUserLogged = true;
+        remember.checked = true;
         saveInStorage(user, sessionStorage);
         greetUser(user);
         toggleElem(toggles, "d-none");
         cart = [...user.cart];
-        countCartItems();
         renderCart();
     } else {
         isUserLogged = false;
@@ -124,6 +126,12 @@ const fetchProducts = async () => {
         renderProducts(fetchedProducts, "all");
     } catch (err) {
         console.log(err.message);
+        Toastify({
+            text: "Error al leer DB productos: " + err.message,
+            style: {
+                background: "#ff0000",
+            },
+        }).showToast();
     }
 };
 
@@ -252,6 +260,11 @@ btnLogout.addEventListener("click", () => {
     toggleElem(toggles, "d-none");
     // Bandera de usuario loggeado en false
     isUserLogged = false;
+    Swal.fire({
+        title: "Hasta la próxima!",
+        timer: 2000,
+        timerProgressBar: true,
+    });
 });
 
 // Se dispara cuando se clickea en algun "añadir al carrito"
@@ -262,7 +275,7 @@ function addItemCart(event) {
         const itemID = event.target.getAttribute("item-id");
         // Chequeamos si ese elemento ya está agregado al carrito
         // "some" devuelve true si encuenta ese id en el carrito
-        let itemAlreadyInCart = cart.some((elem) => elem.id == itemID);
+        let itemAlreadyInCart = cart.some((elem) => elem.id === itemID);
         if (itemAlreadyInCart) {
             Toastify({
                 text: "Este producto ya está en el carrito",
@@ -276,7 +289,7 @@ function addItemCart(event) {
                 },
             }).showToast();
         } else {
-            cart.push(fetchedProducts.find((elem) => elem.id == itemID));
+            cart.push(fetchedProducts.find((elem) => elem.id === itemID));
             renderCart();
             Toastify({
                 text: "Producto agregado al carrito",
@@ -289,8 +302,6 @@ function addItemCart(event) {
                     background: "linear-gradient(to right, #00b09b, #96c93d)",
                 },
             }).showToast();
-
-            contCart.innerHTML = parseInt(contCart.innerHTML) + 1;
             let user = retrieveUserFromStorage(sessionStorage);
             user.cart = [...cart];
             saveInStorage(user, sessionStorage);
@@ -315,8 +326,9 @@ function addItemCart(event) {
 const renderCart = () => {
     // reset del carrito
     cartItems.innerHTML = "";
-
+    totalPrice = 0;
     // Armado de los rows de la tabla
+    // Usando nodos para poder agregar un listener en el boton eliminar prod del carrito
     cart.forEach((elem) => {
         // Creamos la fila/row del item a agregar
         const myNode = document.createElement("tr");
@@ -340,6 +352,7 @@ const renderCart = () => {
         myNodeAnchor.addEventListener("click", removeItemCart);
         const myNodeButton = document.createElement("i");
         myNodeButton.classList.add("fa-regular", "fa-trash-can");
+        myNodeButton.setAttribute("item-id", elem.id);
         // Contenedor del precio
         const myNodeBoxPrice = document.createElement("td");
         // Precio
@@ -358,20 +371,50 @@ const renderCart = () => {
         myNodeBoxPrice.append(myNodePrice);
         // Insertamos el row en la tabla
         /*  ESTRUCTURA FINAL A INSERTAR
-            <tr>
-                <td><img></img></td>
-                <td><span></span></td>
-                <td><a><i></i></a></td>
-                <td><span></span></td>
-            </tr>
-        */
+                <tr>
+                    <td><img></img></td>
+                    <td><span></span></td>
+                    <td><a><i></i></a></td>
+                    <td><span></span></td>
+                </tr>
+            */
         cartItems.append(myNode);
 
         totalPrice += parseFloat(elem.price);
     });
-
+    countCartItems();
     // Armado del footer de la tabla con el precio total
-    // TODO: Armar el footer con la misma tecnica de nodos
+    if (parseInt(contCart.innerText) > 0) {
+        // Creo el footer con totales a través de innerHTML
+        cartFooter.innerHTML = `
+            <tr>
+                <th class="text-center" scope="row" colspan="3">
+                    <span>Total productos:</span>
+                </th>
+                <td>
+                    <span>${contCart.innerText}</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-center" scope="row" colspan="3">
+                    <span>Precio total:</span>
+                </th>
+                <td>
+                    <span>${totalPrice}</span>
+                </td>
+            </tr>
+        `;
+        // Creo los btn de vaciar y comprar con nodos para agregar los eventos
+        // TODO: Anidarlos a cartBox para que se acomoden al final
+    } else {
+        cartFooter.innerHTML = `
+            <tr>
+                <th class="text-center" scope="row" colspan="4">
+                    <span>Carrito vacío</span>
+                </th>
+            </tr>                
+        `;
+    }
 };
 
 // Muestra o esconde el carrito
@@ -380,4 +423,19 @@ btnCart.onclick = () => {
 };
 
 // TODO: Implementar boton remover item y volver a render carrito
-const removeItemCart = (event) => {};
+const removeItemCart = (event) => {
+    const itemID = event.target.getAttribute("item-id");
+    // Buscamos el ID en el carrito para encontrar en que posicion esta
+    const itemIndex = cart.findIndex((elem) => elem.id == itemID);
+    // Borramos el item del carrito (solo si el index existe, para evitar errores)
+    itemIndex > -1 && cart.splice(itemIndex, 1);
+    // Actualizamos el cart en el storage
+    const user = retrieveUserFromStorage(sessionStorage);
+    user.cart.length = 0;
+    user.cart = [...cart];
+    saveInStorage(user, sessionStorage);
+    remember.checked && saveInStorage(user, localStorage);
+    renderCart();
+};
+
+const clearCart = (event) => {};

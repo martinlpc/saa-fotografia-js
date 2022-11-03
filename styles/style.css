@@ -796,6 +796,10 @@ th {
   text-align: center;
 }
 
+.clear-cart {
+  color: red;
+}
+
 .main--store {
   padding: 165px 5% 50px 5%;
 }
