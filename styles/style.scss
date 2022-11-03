@@ -858,7 +858,8 @@ footer {
     background: whitesmoke;
     border-radius: 20px;
     box-shadow: -1px 0px 5px 5px rgba(0, 0, 0, 0.24);
-
+    max-height: 300px;
+    overflow: auto;
 }
 
 .heading-cart {
@@ -871,6 +872,8 @@ th {
     font-weight: 400;
 }
 
+
+
 .cart-thumb {
     width: 100px;
     height: auto;
@@ -878,10 +881,6 @@ th {
 
 .remove-item-btn {
     text-align: center;
-}
-
-.clear-cart {
-    color: red;
 }
 
 .main--store {

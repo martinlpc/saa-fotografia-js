@@ -47,6 +47,7 @@ const btnCart = document.getElementById("btnCart");
 const cartBox = document.querySelector(".box-cart");
 const cartItems = document.querySelector("#cart-items");
 const cartFooter = document.querySelector("#footer-cart");
+const boxBtnCart = document.querySelector("#box-btn-cart");
 
 //
 //  ---------------------------         FLAGS Y CONST        ---------------------------  //
@@ -68,14 +69,15 @@ function validateUser(user, pass) {
 }
 
 // Guarda el usuario recuperado de la DB en el storage indicado
-function saveInStorage(userCurrent, storage) {
+function saveInStorage(userCurrent) {
     const user = {
         name: userCurrent.name,
         user: userCurrent.mail,
         pass: userCurrent.pass,
         cart: userCurrent.cart,
     };
-    storage.setItem("user", JSON.stringify(userCurrent));
+    remember.checked && localStorage.setItem("user", JSON.stringify(userCurrent));
+    sessionStorage.setItem("user", JSON.stringify(userCurrent));
 }
 
 // Modifico el DOM para mostrar el nombre del usuario en <span id="nombreUser"></span>
@@ -107,7 +109,7 @@ function checkUserLogged(user) {
     if (user) {
         isUserLogged = true;
         remember.checked = true;
-        saveInStorage(user, sessionStorage);
+        saveInStorage(user);
         greetUser(user);
         toggleElem(toggles, "d-none");
         cart = [...user.cart];
@@ -125,7 +127,6 @@ const fetchProducts = async () => {
         fetchedProducts = [...data];
         renderProducts(fetchedProducts, "all");
     } catch (err) {
-        console.log(err.message);
         Toastify({
             text: "Error al leer DB productos: " + err.message,
             style: {
@@ -233,10 +234,7 @@ btnLogin.addEventListener("click", (e) => {
                 icon: "error",
             });
         } else {
-            // Chequeamos si eligio recordar su sesion en el navegador del equipo
-            remember.checked && saveInStorage(userData, localStorage);
-            // Guardamos datos en el session siempre
-            saveInStorage(userData, sessionStorage);
+            saveInStorage(userData);
             greetUser(retrieveUserFromStorage(sessionStorage));
             userData.cart.forEach((elem) => {
                 cart.push(elem);
@@ -295,8 +293,8 @@ function addItemCart(event) {
                 text: "Producto agregado al carrito",
                 duration: 2000,
                 close: false,
-                gravity: "top", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
                 stopOnFocus: false, // Prevents dismissing of toast on hover
                 style: {
                     background: "linear-gradient(to right, #00b09b, #96c93d)",
@@ -304,8 +302,7 @@ function addItemCart(event) {
             }).showToast();
             let user = retrieveUserFromStorage(sessionStorage);
             user.cart = [...cart];
-            saveInStorage(user, sessionStorage);
-            remember.checked && saveInStorage(user, localStorage);
+            saveInStorage(user);
         }
     } else {
         Toastify({
@@ -326,6 +323,7 @@ function addItemCart(event) {
 const renderCart = () => {
     // reset del carrito
     cartItems.innerHTML = "";
+    cartFooter.innerHTML = "";
     totalPrice = 0;
     // Armado de los rows de la tabla
     // Usando nodos para poder agregar un listener en el boton eliminar prod del carrito
@@ -400,12 +398,25 @@ const renderCart = () => {
                     <span>Precio total:</span>
                 </th>
                 <td>
-                    <span>${totalPrice}</span>
+                    <span>$ ${totalPrice}</span>
                 </td>
             </tr>
         `;
         // Creo los btn de vaciar y comprar con nodos para agregar los eventos
-        // TODO: Anidarlos a cartBox para que se acomoden al final
+        if (boxBtnCart.innerHTML === "") {
+            const nodeBtnClearCart = document.createElement("button");
+            nodeBtnClearCart.classList.add("btn", "btn-danger", "btn-sm");
+            nodeBtnClearCart.addEventListener("click", clearCart);
+            nodeBtnClearCart.innerText = "Vaciar carrito";
+
+            const nodeBtnCheckout = document.createElement("button");
+            nodeBtnCheckout.classList.add("btn", "btn-success", "btn-sm");
+            nodeBtnCheckout.addEventListener("click", checkout);
+            nodeBtnCheckout.innerText = "Comprar";
+
+            boxBtnCart.append(nodeBtnClearCart);
+            boxBtnCart.append(nodeBtnCheckout);
+        }
     } else {
         cartFooter.innerHTML = `
             <tr>
@@ -414,6 +425,7 @@ const renderCart = () => {
                 </th>
             </tr>                
         `;
+        boxBtnCart.innerHTML = "";
     }
 };
 
@@ -433,9 +445,28 @@ const removeItemCart = (event) => {
     const user = retrieveUserFromStorage(sessionStorage);
     user.cart.length = 0;
     user.cart = [...cart];
-    saveInStorage(user, sessionStorage);
-    remember.checked && saveInStorage(user, localStorage);
+    saveInStorage(user);
     renderCart();
 };
 
-const clearCart = (event) => {};
+const clearCart = (event) => {
+    Swal.fire({
+        icon: "warning",
+        title: "Estás seguro/a?",
+        text: "Vas a vaciar tu carrito de compra!",
+        showCancelButton: true,
+        confirmButtonText: "Vaciar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire("Vaciaste tu carrito :(");
+            cart = [];
+            const user = retrieveUserFromStorage(sessionStorage);
+            user.cart.length = 0;
+            saveInStorage(user);
+            renderCart();
+        }
+    });
+};
+
+const checkout = (event) => {};
