@@ -4,7 +4,7 @@
         "name": "Niños jugando",
         "desc": "Niños jugando en el parque al sol",
         "cat": "img",
-        "src_img": "./res/store/kids-play-sun.jpg",
+        "src_img": "./res/store/kids-play-sun-id001.jpg",
         "price": "100"
     },
     {
@@ -12,12 +12,12 @@
         "name": "Monte Fitz Roy",
         "desc": "Vista del monte Fitz Roy en alta calidad",
         "cat": "img",
-        "src_img": "./res/store/fitz-roy.jpg",
+        "src_img": "./res/store/fitz-roy-id002.jpg",
         "price": "200"
     },
     {
         "id": "003",
-        "name": "E-book: Preparando tu prodcto antes de las fotos",
+        "name": "E-book: Preparando tu producto antes de las fotos",
         "desc": "Consejos y nociones de utilidad para preparar tu producto antes de publicitarlo",
         "cat": "ebook",
         "src_img": "./res/store/ebook-id003.jpg",
@@ -30,5 +30,21 @@
         "cat": "preset",
         "src_img": "./res/store/preset-vintage-id004.jpg",
         "price": "500"
+    },
+    {
+        "id": "005",
+        "name": "LightRoom Preset: Wedding Soft",
+        "desc": "Ideal para dar ambiente cálido a fotografía de casamientos",
+        "cat": "preset",
+        "src_img": "./res/store/preset-wedding-id005.jpg",
+        "price": "600"
+    },
+    {
+        "id": "006",
+        "name": "E-book: El arte de fotografiar la naturaleza",
+        "desc": "Capturando la magia de lo natural",
+        "cat": "ebook",
+        "src_img": "./res/store/ebook-id006.jpg",
+        "price": "800"
     }
 ]

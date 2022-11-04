@@ -84,7 +84,7 @@ function saveInStorage(userCurrent) {
 function greetUser(user) {
     Swal.fire({
         icon: "success",
-        title: "Hola " + user.name + " !",
+        title: "¡Hola " + user.name + " !",
         timer: 2000,
         timerProgressBar: true,
     });
@@ -198,127 +198,6 @@ function countCartItems() {
     contCart.innerHTML = cart.length;
 }
 
-//
-//  ---------------------------         EVENTOS        ---------------------------  //
-//
-
-// Evento captura el item en el filtro de categorias
-filterCat.addEventListener("change", (e) => {
-    renderProducts(fetchedProducts, e.target.value);
-});
-
-// Cargamos el store con los productos del array al abrir la pag
-// y chequeamos si hay un user en local que decidio ser recordado
-window.onload = () => {
-    fetchProducts();
-    checkUserLogged(retrieveUserFromStorage(localStorage));
-};
-
-btnLogin.addEventListener("click", (e) => {
-    // Evitamos que el modal se cierre por
-    // la acción del click
-    e.preventDefault();
-    // Chequeo de campos vacíos
-    if (!loginEmail.value || !loginPass.value) {
-        Swal.fire({
-            title: "Complete ambos campos",
-            icon: "warning",
-        });
-    } else {
-        // Validamos si el usuario existe o no
-        // validateUser() devuelve false o el obj del user
-        let userData = validateUser(loginEmail.value, loginPass.value);
-        if (!userData) {
-            Swal.fire({
-                title: "Usuario y/o contraseña incorrecto(s)",
-                icon: "error",
-            });
-        } else {
-            saveInStorage(userData);
-            greetUser(retrieveUserFromStorage(sessionStorage));
-            userData.cart.forEach((elem) => {
-                cart.push(elem);
-                contCart.innerHTML = parseInt(contCart.innerHTML) + 1;
-            });
-
-            // Ahora se cierra el modal
-            modal.hide();
-            toggleElem(toggles, "d-none");
-            isUserLogged = true;
-        }
-    }
-});
-
-btnLogout.addEventListener("click", () => {
-    // Se eliminan los datos de usuario de los storages
-    eraseStorages();
-    // Contador de items en carrito a cero
-    contCart.innerHTML = "0";
-    // Se ocultan los elementos del DOM correspondientes
-    toggleElem(toggles, "d-none");
-    // Bandera de usuario loggeado en false
-    isUserLogged = false;
-    Swal.fire({
-        title: "Hasta la próxima!",
-        timer: 2000,
-        timerProgressBar: true,
-    });
-});
-
-// Se dispara cuando se clickea en algun "añadir al carrito"
-function addItemCart(event) {
-    // Chequeamos si hay un usuario logueado
-    if (isUserLogged) {
-        // Obtenemos el id del producto en el attr 'item-id' de su button
-        const itemID = event.target.getAttribute("item-id");
-        // Chequeamos si ese elemento ya está agregado al carrito
-        // "some" devuelve true si encuenta ese id en el carrito
-        let itemAlreadyInCart = cart.some((elem) => elem.id === itemID);
-        if (itemAlreadyInCart) {
-            Toastify({
-                text: "Este producto ya está en el carrito",
-                duration: 2000,
-                close: false,
-                gravity: "top", // `top` or `bottom`
-                position: "left", // `left`, `center` or `right`
-                stopOnFocus: false, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(to left, #00b09b, #96c93d)",
-                },
-            }).showToast();
-        } else {
-            cart.push(fetchedProducts.find((elem) => elem.id === itemID));
-            renderCart();
-            Toastify({
-                text: "Producto agregado al carrito",
-                duration: 2000,
-                close: false,
-                gravity: "bottom", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: false, // Prevents dismissing of toast on hover
-                style: {
-                    background: "linear-gradient(to right, #00b09b, #96c93d)",
-                },
-            }).showToast();
-            let user = retrieveUserFromStorage(sessionStorage);
-            user.cart = [...cart];
-            saveInStorage(user);
-        }
-    } else {
-        Toastify({
-            text: "Inicia sesión para poder comprar",
-            duration: 5000,
-            close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-                background: "linear-gradient(to left, #00b09b, #96c93d)",
-            },
-        }).showToast();
-    }
-}
-
 // Renderiza el carrito
 const renderCart = () => {
     // reset del carrito
@@ -403,7 +282,7 @@ const renderCart = () => {
             </tr>
         `;
         // Creo los btn de vaciar y comprar con nodos para agregar los eventos
-        if (boxBtnCart.innerHTML === "") {
+        if (boxBtnCart.innerHTML == "") {
             const nodeBtnClearCart = document.createElement("button");
             nodeBtnClearCart.classList.add("btn", "btn-danger", "btn-sm");
             nodeBtnClearCart.addEventListener("click", clearCart);
@@ -429,12 +308,142 @@ const renderCart = () => {
     }
 };
 
+//
+//  ---------------------------         EVENTOS        ---------------------------  //
+//
+
+// Evento captura el item en el filtro de categorias
+filterCat.addEventListener("change", (e) => {
+    renderProducts(fetchedProducts, e.target.value);
+});
+
+// Cargamos el store con los productos del array al abrir la pag
+// y chequeamos si hay un user en local que decidio ser recordado
+window.onload = () => {
+    fetchProducts();
+    checkUserLogged(retrieveUserFromStorage(localStorage));
+};
+
+btnLogin.addEventListener("click", (e) => {
+    // Evitamos que el modal se cierre por
+    // la acción del click
+    e.preventDefault();
+    // Chequeo de campos vacíos
+    if (!loginEmail.value || !loginPass.value) {
+        Swal.fire({
+            title: "Complete ambos campos",
+            icon: "warning",
+        });
+    } else {
+        // Validamos si el usuario existe o no
+        // validateUser() devuelve false o el obj del user
+        let userData = validateUser(loginEmail.value, loginPass.value);
+        if (!userData) {
+            Swal.fire({
+                title: "Usuario y/o contraseña incorrecto(s)",
+                icon: "error",
+            });
+        } else {
+            saveInStorage(userData);
+            greetUser(retrieveUserFromStorage(sessionStorage));
+            userData.cart.forEach((elem) => {
+                cart.push(elem);
+                contCart.innerHTML = parseInt(contCart.innerHTML) + 1;
+            });
+
+            // Ahora se cierra el modal
+            modal.hide();
+            toggleElem(toggles, "d-none");
+            isUserLogged = true;
+        }
+    }
+});
+
+btnLogout.addEventListener("click", () => {
+    Swal.fire({
+        icon: "warning",
+        title: "¿Estás seguro/a?",
+        text: "¡Vas a desloguearte y perder el contenido de tu carrito!",
+        showCancelButton: true,
+        confirmButtonText: "Logout",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire("¡Adiós!");
+            cart = [];
+            // Se eliminan los datos de usuario de los storages
+            eraseStorages();
+            renderCart();
+            countCartItems();
+            // Se ocultan los elementos del DOM correspondientes
+            toggleElem(toggles, "d-none");
+            // El carrito se oculta en una instrucción separada ya que no está en el grupo de toggles
+            !cartBox.classList.contains("d-none") && cartBox.classList.add("d-none");
+            // Bandera de usuario loggeado en false
+            isUserLogged = false;
+        }
+    });
+});
+
+// Se dispara cuando se clickea en algun "añadir al carrito"
+function addItemCart(event) {
+    // Chequeamos si hay un usuario logueado
+    if (isUserLogged) {
+        // Obtenemos el id del producto en el attr 'item-id' de su button
+        const itemID = event.target.getAttribute("item-id");
+        // Chequeamos si ese elemento ya está agregado al carrito
+        // "some" devuelve true si encuenta ese id en el carrito
+        let itemAlreadyInCart = cart.some((elem) => elem.id === itemID);
+        if (itemAlreadyInCart) {
+            Toastify({
+                text: "Este producto ya está en el carrito",
+                duration: 2000,
+                close: false,
+                gravity: "top", // `top` or `bottom`
+                position: "left", // `left`, `center` or `right`
+                stopOnFocus: false, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(to left, #00b09b, #96c93d)",
+                },
+            }).showToast();
+        } else {
+            cart.push(fetchedProducts.find((elem) => elem.id === itemID));
+            renderCart();
+            Toastify({
+                text: "Producto agregado al carrito",
+                duration: 2000,
+                close: false,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: false, // Prevents dismissing of toast on hover
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+            }).showToast();
+            let user = retrieveUserFromStorage(sessionStorage);
+            user.cart = [...cart];
+            saveInStorage(user);
+        }
+    } else {
+        Toastify({
+            text: "Inicia sesión para poder comprar",
+            duration: 5000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+                background: "linear-gradient(to left, #00b09b, #96c93d)",
+            },
+        }).showToast();
+    }
+}
+
 // Muestra o esconde el carrito
 btnCart.onclick = () => {
     cartBox.classList.toggle("d-none");
 };
 
-// TODO: Implementar boton remover item y volver a render carrito
 const removeItemCart = (event) => {
     const itemID = event.target.getAttribute("item-id");
     // Buscamos el ID en el carrito para encontrar en que posicion esta
@@ -452,14 +461,14 @@ const removeItemCart = (event) => {
 const clearCart = (event) => {
     Swal.fire({
         icon: "warning",
-        title: "Estás seguro/a?",
-        text: "Vas a vaciar tu carrito de compra!",
+        title: "¿Estás seguro/a?",
+        text: "¡Vas a vaciar tu carrito de compra!",
         showCancelButton: true,
         confirmButtonText: "Vaciar",
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire("Vaciaste tu carrito :(");
+            Swal.fire("Vaciaste tu carrito ☹");
             cart = [];
             const user = retrieveUserFromStorage(sessionStorage);
             user.cart.length = 0;
@@ -469,4 +478,30 @@ const clearCart = (event) => {
     });
 };
 
-const checkout = (event) => {};
+const checkout = (event) => {
+    Swal.fire({
+        icon: "question",
+        title: "¿Procedemos?",
+        text: "Vas a comprar por un total de $ " + totalPrice,
+        showCancelButton: true,
+        cancelButtonText: "Esperá! Todavía no!",
+        confirmButtonText: "¡Si! ¡Compro!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            cart = [];
+            const user = retrieveUserFromStorage(sessionStorage);
+            user.cart.length = 0;
+            saveInStorage(user);
+            renderCart();
+            Swal.fire({
+                icon: "success",
+                title: "¡Gracias por tu compra! 😃",
+            });
+        } else {
+            Swal.fire({
+                icon: "info",
+                title: "Cancelaste el proceso de compra",
+            });
+        }
+    });
+};
